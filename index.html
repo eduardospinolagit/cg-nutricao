@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C&amp;G Nutrição | Gestão de Serviços de Alimentação em Joinville</title>
+<meta name="description" content="Responsabilidade técnica, auditorias, Manual de Boas Práticas, POPs, fichas técnicas e treinamento de equipes para escolas, hotéis e restaurantes de Joinville e região.">
+<meta name="theme-color" content="#1E0F45">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --noite:#1E0F45;
+  --violeta:#3A1E78;
+  --violeta-2:#4B2E8F;
+  --lavanda:#8E8BB8;
+  --lavanda-texto:#5B5683;
+  --lavanda-clara:#E9E7F4;
+  --papel:#FAF9FD;
+  --tinta:#1A1430;
+  --manteiga:#F2CF5B;
+  --manteiga-clara:#FBF0C4;
+  --serif:'Young Serif',Georgia,serif;
+  --sans:'Hanken Grotesk',system-ui,sans-serif;
+  --gutter:clamp(20px,5vw,64px);
+  --max:1200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--papel);color:var(--tinta);font:400 17px/1.6 var(--sans);overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--manteiga);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.08;letter-spacing:-.01em}
+h2{font-size:clamp(2rem,4.6vw,3.4rem)}
+h3{font-size:1.45rem;line-height:1.2}
+p{max-width:62ch}
+
+/* Botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:10px 26px;text-align:center;line-height:1.25;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;border:2px solid transparent;transition:transform .2s ease,background-color .2s ease,color .2s ease,border-color .2s ease}
+.btn svg{width:20px;height:20px;flex:none}
+.btn:hover{transform:translateY(-2px)}
+.btn-amarelo{background:var(--manteiga);color:var(--noite)}
+.btn-amarelo:hover{background:#F7DB7F}
+.btn-contorno{border-color:rgba(233,231,244,.45);color:var(--papel)}
+.btn-contorno:hover{border-color:var(--papel);background:rgba(233,231,244,.08)}
+.btn-violeta{background:var(--violeta);color:var(--papel)}
+.btn-violeta:hover{background:var(--violeta-2)}
+
+/* Topo */
+.topo{position:fixed;inset:0 0 auto 0;z-index:50;transition:background-color .3s ease,box-shadow .3s ease}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.topo.solido{background:rgba(30,15,69,.94);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(233,231,244,.08)}
+.logo{display:inline-flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--papel);line-height:1}
+.logo .marca{font-family:var(--serif);font-size:30px;position:relative;letter-spacing:.01em}
+.logo .marca svg{position:absolute;width:13px;height:13px;top:-7px;left:50%;transform:translateX(-50%)}
+.logo .sub{font-size:9.5px;letter-spacing:.32em;margin-top:4px;opacity:.8;padding-left:.32em}
+.menu{display:none;gap:28px;list-style:none}
+.menu a{text-decoration:none;color:rgba(250,249,253,.82);font-size:15px;font-weight:500}
+.menu a:hover{color:var(--papel)}
+.topo .btn{min-height:44px;padding:0 18px;font-size:15px}
+.topo-acoes{display:flex;align-items:center;gap:10px}
+.menu-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(233,231,244,.35);background:transparent;position:relative;color:var(--papel)}
+.menu-btn i{position:absolute;left:12px;right:12px;height:2px;background:currentColor;border-radius:2px;transition:transform .3s ease,top .3s ease}
+.menu-btn i:first-child{top:16px}.menu-btn i:last-child{top:25px}
+.menu-aberto .menu-btn i:first-child{top:20.5px;transform:rotate(45deg)}
+.menu-aberto .menu-btn i:last-child{top:20.5px;transform:rotate(-45deg)}
+.gaveta{position:fixed;inset:0;z-index:45;background:var(--noite);padding:100px var(--gutter) 32px;display:flex;flex-direction:column;gap:28px;overflow-y:auto;visibility:hidden;opacity:0;transform:translateY(-12px);transition:opacity .3s ease,transform .3s ease,visibility 0s linear .3s}
+.menu-aberto .gaveta{visibility:visible;opacity:1;transform:none;transition:opacity .3s ease,transform .3s ease}
+.menu-aberto{overflow:hidden}
+.menu-aberto .topo{background:var(--noite)}
+.gaveta ol{list-style:none}
+.gaveta li{border-bottom:1px solid rgba(233,231,244,.12)}
+.gaveta li a{display:flex;align-items:center;justify-content:space-between;min-height:60px;font-family:var(--serif);font-size:1.75rem;color:var(--papel);text-decoration:none}
+.gaveta li a::after{content:"";width:9px;height:9px;border-radius:50%;border:2px solid var(--manteiga)}
+.gaveta .btn{width:100%}
+.gaveta small{color:rgba(250,249,253,.6);font-size:14px}
+@media (min-width:900px){.menu{display:flex}.menu-btn,.gaveta{display:none}}
+@media (max-width:899px){.topo .btn-wa-txt{display:none}.topo .btn{width:44px;padding:0;border-radius:50%}}
+
+/* Primeira tela */
+.hero{position:relative;min-height:100svh;background:var(--noite);color:var(--papel);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:110px 0 90px}
+.hero .planta-fundo{position:absolute;inset:0;width:100%;height:100%}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 62% 55% at 50% 50%,rgba(30,15,69,.94) 0%,rgba(30,15,69,.78) 45%,rgba(30,15,69,.25) 100%);pointer-events:none}
+.hero-conteudo{position:relative;z-index:2;max-width:1120px;padding:0 var(--gutter)}
+.hero h1{font-size:clamp(2.4rem,10.4vw,5.5rem);line-height:1.02;margin:0 auto;max-width:18ch;text-wrap:balance}
+.hero .linha{font-size:clamp(1rem,1.6vw,1.2rem);color:rgba(250,249,253,.82);margin:26px auto 0;max-width:72ch}
+.hero .acoes{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:36px}
+@media (max-width:560px){.hero .acoes,.final .acoes{flex-direction:column;align-items:stretch;max-width:360px;margin-left:auto;margin-right:auto}.resultado .btn{min-height:56px}}
+.rolar{position:absolute;z-index:2;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:rgba(250,249,253,.6);font-size:13px;text-decoration:none}
+.rolar span{display:block;width:1px;height:38px;background:linear-gradient(var(--manteiga),transparent)}
+@media (max-height:820px) and (min-width:700px){.rolar{display:none}}
+
+/* Planta */
+.planta{--p-bg:var(--noite);--p-wall:#9B95CC;--p-equip:#5E519C;--p-text:#9B95CC}
+.planta .room{fill:transparent;stroke:var(--p-wall);stroke-width:2;transition:fill .5s ease}
+.planta .contorno{fill:none;stroke:var(--p-wall);stroke-width:5}
+.planta .equip rect,.planta .equip circle,.planta .equip line{fill:none;stroke:var(--p-equip);stroke-width:1.5}
+.planta .equip .tracejado{stroke-dasharray:6 6}
+.planta .vao{stroke:var(--p-bg);stroke-width:9}
+.planta .porta{fill:none;stroke:var(--p-equip);stroke-width:1.4}
+.planta text{fill:var(--p-text);font-family:var(--sans);font-size:15px;font-weight:500}
+.planta .fluxo{fill:none;stroke:var(--manteiga);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.planta .retorno{fill:none;stroke:var(--p-wall);stroke-width:2;stroke-dasharray:1 9;stroke-linecap:round;opacity:.8}
+.planta .parada{fill:var(--p-bg);stroke:var(--manteiga);stroke-width:3;transform-box:fill-box;transform-origin:center;transition:transform .4s ease,fill .4s ease}
+.planta .bandeja{fill:var(--manteiga)}
+.hero .planta{opacity:.9}
+
+.js .hero .planta .room,.js .hero .planta .contorno{stroke-dasharray:1;stroke-dashoffset:1;animation:desenhar 1.6s cubic-bezier(.6,0,.3,1) forwards}
+.js .hero .planta .contorno{animation-duration:1.9s}
+.js .hero .planta .equip,.js .hero .planta .portas,.js .hero .planta text,.js .hero .planta .retorno{opacity:0;animation:aparecer 1s ease 1.2s forwards}
+.js .hero .planta .fluxo{stroke-dasharray:1;stroke-dashoffset:1;animation:desenhar 2.2s cubic-bezier(.5,0,.3,1) 1.5s forwards}
+.js .hero .planta .parada{opacity:0;animation:aparecer .4s ease forwards}
+.js .hero .planta .bandeja{opacity:0;animation:aparecer .5s ease 3.6s forwards}
+.js .hero .entra{opacity:0;transform:translateY(18px);animation:entrar .9s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes desenhar{to{stroke-dashoffset:0}}
+@keyframes aparecer{to{opacity:1}}
+@keyframes entrar{to{opacity:1;transform:none}}
+
+/* Seções */
+section{position:relative}
+.secao{padding:clamp(80px,11vw,140px) 0}
+.intro-sec{font-size:1.1rem;color:var(--lavanda-texto);margin-top:18px}
+
+/* Para quem */
+.quem-grid{display:grid;gap:48px}
+.publicos{list-style:none;font-family:var(--serif);font-size:clamp(1.55rem,3.3vw,2.35rem);line-height:1.18;color:var(--violeta)}
+.publicos li{padding:12px 0;border-bottom:1px solid var(--lavanda-clara);display:flex;align-items:baseline;gap:16px}
+.publicos li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--manteiga);flex:none;transform:translateY(-4px)}
+.dor{margin-top:34px;display:grid;gap:18px;font-size:1.06rem}
+.dor p:last-child{font-weight:600;color:var(--violeta)}
+@media (min-width:900px){.quem-grid{grid-template-columns:5fr 6fr;gap:80px;align-items:start}.quem-grid .fixo{position:sticky;top:110px}}
+
+/* Faixa de foto */
+.faixa{height:clamp(420px,70vh,640px);overflow:hidden;display:flex;align-items:flex-end;color:var(--papel);background:var(--noite)}
+.faixa img{position:absolute;inset:-8% 0;width:100%;height:116%;object-fit:cover;filter:grayscale(.35) contrast(1.05);will-change:transform}
+.faixa::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(30,15,69,.15) 0%,rgba(30,15,69,.35) 40%,rgba(30,15,69,.9) 100%),rgba(58,30,120,.28);mix-blend-mode:normal}
+.faixa blockquote{position:relative;z-index:2;padding-bottom:clamp(40px,7vw,80px)}
+.faixa blockquote p{font-family:var(--serif);font-size:clamp(1.7rem,4vw,3.1rem);line-height:1.15;max-width:22ch}
+.faixa cite{display:block;margin-top:18px;font-style:normal;font-size:15px;color:rgba(250,249,253,.75)}
+
+/* Serviços na planta */
+.servicos{background:var(--papel)}
+.serv-topo{max-width:760px;margin-bottom:56px}
+.serv-grid{display:grid;gap:0}
+.serv-planta{position:sticky;top:72px;z-index:3;background:var(--papel);padding:14px 0 10px;margin:0 calc(var(--gutter) * -1);padding-left:var(--gutter);padding-right:var(--gutter);border-bottom:1px solid var(--lavanda-clara)}
+.serv-planta .planta{--p-bg:var(--papel);--p-wall:var(--violeta);--p-equip:#B4B0D6;--p-text:var(--lavanda-texto);width:100%;height:auto;display:block}
+.serv-planta .planta .room.ativo{fill:var(--manteiga-clara)}
+.serv-planta .planta .parada.ativo{fill:var(--manteiga);transform:scale(1.5)}
+.serv-legenda{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--lavanda-texto);margin-top:8px}
+.serv-legenda span{display:inline-flex;align-items:center;gap:8px}
+.serv-legenda i{display:inline-block;width:22px;height:3px;background:var(--manteiga);border-radius:2px}
+.serv-legenda i.pont{background:none;border-top:2px dotted var(--violeta);height:0}
+.serv-lista{list-style:none}
+.serv-item{padding:42px 0;border-bottom:1px solid var(--lavanda-clara);transition:opacity .4s ease}
+.serv-item .onde{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--lavanda-texto);margin-bottom:12px}
+.serv-item .onde::before{content:"";width:9px;height:9px;border-radius:50%;border:2px solid var(--manteiga);background:var(--papel)}
+.serv-item h3{color:var(--violeta);margin-bottom:12px}
+.serv-item p{color:#3D3757}
+.js .serv-item{opacity:.38}
+.js .serv-item.ativo{opacity:1}
+.js .serv-item.ativo .onde::before{background:var(--manteiga)}
+@media (min-width:960px){
+  .serv-grid{grid-template-columns:7fr 5fr;gap:64px;align-items:start}
+  .serv-planta{top:110px;margin:0;padding:0;border:0;order:0}
+  .serv-lista{order:1;padding-bottom:20vh}
+  .serv-item{padding:56px 0;min-height:44vh;display:flex;flex-direction:column;justify-content:center}
+  .serv-item:first-child{padding-top:0;min-height:auto}
+}
+@media (max-width:959px){.serv-planta .planta{max-height:26vh}.serv-legenda{display:none}.serv-item{padding:34px 0}}
+
+/* Checklist */
+.check{background:var(--lavanda-clara)}
+.check-grid{display:grid;gap:36px;margin-top:48px}
+.folha{background:#fff;border-radius:18px;padding:clamp(22px,4vw,40px);box-shadow:0 1px 0 rgba(58,30,120,.06),0 24px 60px -30px rgba(58,30,120,.35);position:relative}
+.folha::before{content:"";position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:120px;height:26px;border-radius:8px;background:var(--violeta)}
+.folha fieldset{border:0;margin-bottom:26px}
+.folha legend{font-weight:700;font-size:15px;color:var(--violeta);margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.chips span{display:inline-flex;min-height:42px;align-items:center;padding:0 16px;border-radius:999px;border:1.5px solid #CFCBE6;font-size:15px;font-weight:500;color:var(--lavanda-texto);transition:all .2s ease}
+.chips input:checked+span{background:var(--violeta);border-color:var(--violeta);color:var(--papel)}
+.chips input:focus-visible+span{outline:3px solid var(--manteiga);outline-offset:2px}
+.itens{list-style:none;display:grid;gap:4px}
+.itens label{display:flex;gap:14px;align-items:flex-start;padding:12px 10px;border-radius:10px;cursor:pointer;transition:background-color .2s ease}
+.itens label:hover{background:#F5F4FA}
+.itens input{position:absolute;opacity:0;width:1px;height:1px}
+.caixa{flex:none;width:26px;height:26px;border-radius:7px;border:2px solid #B4B0D6;display:grid;place-items:center;transition:all .2s ease;margin-top:1px}
+.caixa svg{width:16px;height:16px;stroke:var(--noite);stroke-width:3;fill:none;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s ease}
+.itens input:checked+.caixa{background:var(--manteiga);border-color:var(--manteiga)}
+.itens input:checked+.caixa svg{stroke-dashoffset:0}
+.itens input:focus-visible+.caixa{outline:3px solid var(--violeta);outline-offset:2px}
+.itens .txt{font-size:16px;line-height:1.45}
+.resultado{background:var(--noite);color:var(--papel);border-radius:18px;padding:clamp(26px,4vw,44px);align-self:start}
+.placar{font-family:var(--serif);font-size:clamp(3.4rem,8vw,5rem);line-height:1}
+.placar small{font-family:var(--sans);font-size:1rem;color:rgba(250,249,253,.7);margin-left:8px}
+.barra{height:8px;border-radius:8px;background:rgba(233,231,244,.15);margin:18px 0 22px;overflow:hidden}
+.barra i{display:block;height:100%;width:0;background:var(--manteiga);border-radius:8px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.leitura{font-size:1.05rem;color:rgba(250,249,253,.88);min-height:3.2em}
+.pendentes{margin:18px 0 26px;font-size:14.5px;color:rgba(250,249,253,.72)}
+.pendentes strong{color:var(--papel);font-weight:600}
+.resultado .btn{width:100%}
+.aviso{font-size:13px;color:rgba(250,249,253,.55);margin-top:14px}
+@media (min-width:960px){.check-grid{grid-template-columns:7fr 5fr;gap:48px}.resultado{position:sticky;top:110px}}
+
+/* Como funciona */
+.passos-sec{background:var(--violeta);color:var(--papel);overflow:hidden}
+.passos-sec .intro-sec{color:rgba(250,249,253,.78)}
+.passos{list-style:none;display:grid;gap:0;margin-top:56px;position:relative;counter-reset:passo}
+.passos::before{content:"";position:absolute;left:21px;top:8px;bottom:8px;width:2px;background:rgba(233,231,244,.18)}
+.passos .trilho{position:absolute;left:21px;top:8px;width:2px;height:0;background:var(--manteiga);transition:height 1.6s cubic-bezier(.4,0,.2,1)}
+.passos.visto .trilho{height:calc(100% - 16px)}
+.passos li{position:relative;padding:0 0 40px 70px}
+.passos li:last-child{padding-bottom:0}
+.passos li.trilho{padding:0}
+.passos .num{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;background:var(--violeta);border:2px solid var(--manteiga);display:grid;place-items:center;font-family:var(--serif);font-size:20px;color:var(--manteiga)}
+.passos h3{font-size:1.5rem;margin-bottom:8px}
+.passos p{color:rgba(250,249,253,.8)}
+.passos-foto{margin-top:64px;border-radius:18px;overflow:hidden;aspect-ratio:16/9}
+.passos-foto img{width:100%;height:100%;object-fit:cover;filter:grayscale(.3)}
+@media (min-width:960px){
+  .passos{grid-template-columns:repeat(4,1fr);gap:32px}
+  .passos::before{left:22px;right:22px;top:21px;bottom:auto;width:auto;height:2px}
+  .passos .trilho{left:22px;top:21px;height:2px;width:0;transition:width 1.8s cubic-bezier(.4,0,.2,1)}
+  .passos.visto .trilho{height:2px;width:calc(100% - 44px)}
+  .passos li{padding:72px 0 0}
+  .passos-foto{aspect-ratio:21/8}
+}
+
+/* Escolas */
+.escolas-grid{display:grid;gap:44px;align-items:center}
+.escolas-foto{border-radius:18px;overflow:hidden;aspect-ratio:4/5;position:relative}
+.escolas-foto img{width:100%;height:100%;object-fit:cover;filter:grayscale(.2) saturate(.9)}
+.escolas-foto figcaption{position:absolute;left:16px;bottom:16px;right:16px;background:rgba(250,249,253,.92);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--tinta)}
+.escolas-texto p+p{margin-top:16px}
+.citacao{margin-top:34px;padding:26px 28px;border-left:4px solid var(--manteiga);background:#fff;border-radius:0 14px 14px 0}
+.citacao p{font-family:var(--serif);font-size:1.45rem;line-height:1.3;color:var(--violeta)}
+.citacao cite{display:block;margin-top:10px;font-style:normal;font-size:14px;color:var(--lavanda-texto)}
+@media (min-width:900px){.escolas-grid{grid-template-columns:5fr 6fr;gap:80px}}
+
+/* Quem somos */
+.socias{background:var(--noite);color:var(--papel);overflow:hidden}
+.mono{font-family:var(--serif);font-size:clamp(7rem,30vw,21rem);line-height:.82;letter-spacing:-.03em;display:flex;align-items:flex-start;justify-content:center;gap:.02em;color:var(--papel);user-select:none}
+.mono .amp{color:var(--manteiga);position:relative}
+.mono .amp svg{position:absolute;width:.16em;height:.16em;left:50%;top:-.06em;transform:translateX(-50%)}
+.nomes{display:grid;gap:44px;margin:48px auto 0;max-width:920px}
+.nome figure{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;background:var(--violeta)}
+.nome figure img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.nome .letra{position:absolute;left:16px;bottom:16px;width:64px;height:64px;border-radius:50%;background:var(--manteiga);color:var(--noite);display:grid;place-items:center;font-family:var(--serif);font-size:2.2rem;line-height:1}
+.nome h3{margin-top:18px;font-size:1.6rem}
+.nome a{color:rgba(250,249,253,.7);font-size:15px;text-decoration:none;display:inline-block;margin-top:6px}
+.nome a:hover{color:var(--papel);text-decoration:underline}
+.socias-texto{margin-top:72px;display:grid;gap:32px;align-items:center}
+.socias-texto .txt{display:grid;gap:18px;font-size:1.08rem;color:rgba(250,249,253,.85)}
+.socias-texto figure{border-radius:18px;overflow:hidden;position:relative}
+.socias-texto figure img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center 20%}
+@media (max-width:899px){.socias-texto figure img{aspect-ratio:4/5}}
+.socias-texto figcaption{font-size:14px;color:rgba(250,249,253,.65);margin-top:12px}
+@media (min-width:900px){.nomes{grid-template-columns:1fr 1fr;gap:48px}.socias-texto{grid-template-columns:7fr 5fr;gap:64px}}
+
+/* Avaliações */
+.aval-topo{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:48px}
+.nota{display:flex;align-items:center;gap:18px}
+.nota b{font-family:var(--serif);font-weight:400;font-size:4.2rem;line-height:1;color:var(--violeta)}
+.estrelas{display:flex;gap:3px}
+.estrelas svg{width:20px;height:20px;fill:var(--manteiga)}
+.nota small{display:block;font-size:14px;color:var(--lavanda-texto);margin-top:6px}
+.aval-grid{display:grid;gap:20px}
+.aval{background:#fff;border:1px solid var(--lavanda-clara);border-radius:16px;padding:28px}
+.aval p{font-size:1.05rem;color:#2E2848}
+.aval footer{margin-top:16px;font-size:14px;color:var(--lavanda-texto);font-weight:600}
+.aval.grande{background:var(--violeta);border-color:var(--violeta);color:var(--papel)}
+.aval.grande p{font-family:var(--serif);font-size:clamp(1.15rem,2.4vw,1.75rem);line-height:1.32;color:var(--papel)}
+.aval.grande footer{color:rgba(250,249,253,.75)}
+.link-google{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--violeta);text-decoration:none;border-bottom:2px solid var(--manteiga);padding-bottom:2px}
+@media (min-width:900px){.aval-grid{grid-template-columns:7fr 5fr;grid-template-rows:auto auto}.aval.grande{grid-row:span 2;display:flex;flex-direction:column;justify-content:space-between;padding:40px}}
+
+/* Perguntas */
+.faq{background:var(--lavanda-clara)}
+.faq-grid{display:grid;gap:40px}
+.faq details{border-bottom:1px solid #CFCBE6}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-weight:600;font-size:1.1rem;color:var(--violeta)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .mais{flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--violeta);position:relative;transition:transform .3s ease,background-color .3s ease}
+.faq summary .mais::before,.faq summary .mais::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:var(--violeta);transform:translate(-50%,-50%)}
+.faq summary .mais::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s ease}
+.faq details[open] .mais{background:var(--manteiga);border-color:var(--manteiga)}
+.faq details[open] .mais::after{transform:translate(-50%,-50%) rotate(0)}
+.faq .resp{padding:0 0 24px;color:#3D3757}
+.js .faq details[open] .resp{animation:abrir .35s ease}
+@keyframes abrir{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@media (min-width:900px){.faq-grid{grid-template-columns:4fr 7fr;gap:80px}}
+
+/* Chamada final */
+.final{background:var(--noite);color:var(--papel);text-align:center;overflow:hidden}
+.final .selo-ano{display:inline-block;font-family:var(--serif);font-size:clamp(4.5rem,16vw,11rem);line-height:.9;color:transparent;-webkit-text-stroke:1.5px rgba(242,207,91,.55);margin-bottom:10px}
+.final h2{font-size:clamp(2.3rem,6vw,4.4rem);max-width:16ch;margin:0 auto}
+.final p{margin:22px auto 0;color:rgba(250,249,253,.8);font-size:1.1rem}
+.final .acoes{margin-top:36px;display:flex;justify-content:center;flex-wrap:wrap;gap:14px}
+.contatos{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:12px 36px;margin-top:56px;font-size:15px;color:rgba(250,249,253,.75)}
+.contatos a{text-decoration:none}
+.contatos a:hover{color:var(--papel);text-decoration:underline}
+.contatos li{display:inline-flex;align-items:center;gap:8px}
+.contatos svg{width:18px;height:18px;stroke:var(--manteiga);fill:none;stroke-width:1.8}
+
+/* Rodapé */
+.rodape{background:#140A31;color:rgba(250,249,253,.72);font-size:15px;position:relative;overflow:hidden}
+.rodape-linha{position:relative;margin-bottom:56px;height:16px}
+.rodape-linha::before{content:"";position:absolute;left:0;right:0;top:7px;height:2px;background:var(--manteiga);transform-origin:left;transform:scaleX(1);transition:transform 1.8s cubic-bezier(.4,0,.2,1)}
+.rodape-linha i{position:absolute;top:0;width:16px;height:16px;border-radius:50%;background:#140A31;border:2px solid var(--manteiga);transform:translateX(-50%);transition:opacity .4s ease}
+.rodape-linha i:last-child{background:var(--manteiga)}
+.js .rodape-linha::before{transform:scaleX(0)}
+.js .rodape-linha i{opacity:0}
+.js .rodape-linha.visto::before{transform:scaleX(1)}
+.js .rodape-linha.visto i{opacity:1}
+.rodape-topo{padding-top:64px}
+.rodape-grid{display:grid;gap:40px;padding-bottom:48px}
+.rodape .logo{align-items:flex-start}
+.rodape .logo .marca{font-size:40px}
+.rodape .logo .sub{font-size:11px;padding-left:2px}
+.rodape .logo .marca svg{left:50%}
+.rodape-marca p{margin-top:20px;max-width:34ch;line-height:1.55}
+.rodape-marca .btn{margin-top:24px}
+.rodape h3{font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--manteiga);margin-bottom:12px}
+.rodape ul{list-style:none}
+.rodape li a,.rodape li span{display:inline-flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:rgba(250,249,253,.82)}
+.rodape li a:hover{color:var(--papel);text-decoration:underline;text-underline-offset:3px}
+.rodape li svg{width:18px;height:18px;flex:none;stroke:var(--manteiga);fill:none;stroke-width:1.8}
+.rodape li small{display:block;font-size:13px;color:rgba(250,249,253,.55);margin-top:-10px;margin-bottom:6px}
+.rodape-base{border-top:1px solid rgba(233,231,244,.1);padding:22px 0 calc(22px + env(safe-area-inset-bottom));display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center;justify-content:space-between;font-size:13.5px}
+.subir{display:inline-flex;align-items:center;gap:8px;color:rgba(250,249,253,.75);text-decoration:none;min-height:44px}
+.subir:hover{color:var(--papel)}
+.subir svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+@media (min-width:720px){.rodape-grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1024px){.rodape-grid{grid-template-columns:1.5fr 1fr 1.2fr 1.2fr;gap:48px}}
+@media (max-width:719px){.rodape-base{flex-direction:column;align-items:flex-start}.rodape-marca .btn{width:100%}}
+.sano{display:inline-flex;align-items:center;gap:8px;opacity:.75;text-decoration:none;color:var(--papel);font-size:13.5px;transition:opacity .2s}
+.sano:hover{opacity:1}
+.sano svg{width:22px;height:22px}
+
+/* Revelação ao rolar */
+.js .revela{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.js .revela.visto{opacity:1;transform:none}
+.js .publicos li{opacity:0;transform:translateX(-14px);transition:opacity .6s ease,transform .6s ease}
+.js .publicos.visto li{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .hero .planta *,.js .hero .entra,.js .revela,.js .publicos li{opacity:1!important;transform:none!important;stroke-dashoffset:0!important}
+  .planta .bandeja{display:none}
+  .passos .trilho{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topo" id="topo">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="C&amp;G Nutrição, voltar ao início">
+      <span class="marca">C&amp;G<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F2CF5B" d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4.5 6.6 4.5c2.2 0 3.7 1.3 5.4 3.2 1.7-1.9 3.2-3.2 5.4-3.2 3.6 0 5.8 3.7 4.2 7.3C19.5 16.4 12 21 12 21z"/></svg></span>
+      <span class="sub">NUTRIÇÃO</span>
+    </a>
+    <ul class="menu">
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#checklist">Checklist</a></li>
+      <li><a href="#escolas">Escolas</a></li>
+      <li><a href="#socias">Quem somos</a></li>
+    </ul>
+    <div class="topo-acoes">
+      <a class="btn btn-amarelo" href="https://wa.me/5547992922933?text=Ol%C3%A1%2C%20C%26G!%20Vi%20o%20site%20e%20quero%20conversar%20sobre%20a%20nossa%20cozinha." target="_blank" rel="noopener" aria-label="Falar com a C&amp;G no WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1 0-.3-.1-.5-.2z"/></svg>
+        <span class="btn-wa-txt">WhatsApp</span>
+      </a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="gaveta" aria-label="Abrir menu"><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<nav class="gaveta" id="gaveta" aria-label="Menu">
+  <ol>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#checklist">Checklist da cozinha</a></li>
+    <li><a href="#como">Como funciona</a></li>
+    <li><a href="#escolas">Escolas</a></li>
+    <li><a href="#socias">Quem somos</a></li>
+    <li><a href="#perguntas">Perguntas</a></li>
+  </ol>
+  <a class="btn btn-amarelo" href="https://wa.me/5547992922933?text=Ol%C3%A1%2C%20C%26G!%20Vi%20o%20site%20e%20quero%20conversar%20sobre%20a%20nossa%20cozinha." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1 0-.3-.1-.5-.2z"/></svg> Falar com a C&amp;G no WhatsApp</a>
+  <small>Joinville e região. (47) 99292-2933</small>
+</nav>
+
+<main id="inicio">
+
+<!-- PRIMEIRA TELA -->
+<section class="hero">
+  <svg class="planta planta-fundo" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g class="equip">
+      <rect x="62" y="62" width="156" height="18" rx="2"/><rect x="62" y="152" width="156" height="18" rx="2"/>
+      <rect x="62" y="212" width="22" height="166"/><rect x="196" y="212" width="22" height="166"/><rect x="112" y="236" width="56" height="40" rx="2"/>
+      <rect x="150" y="530" width="66" height="46" rx="3"/><circle cx="183" cy="553" r="13"/>
+      <rect x="268" y="66" width="224" height="44" rx="3"/><rect x="268" y="330" width="130" height="44" rx="3"/><rect x="412" y="330" width="80" height="44" rx="3"/><circle cx="452" cy="352" r="12"/><rect x="330" y="160" width="100" height="70" rx="3"/>
+      <rect class="tracejado" x="548" y="54" width="224" height="104" rx="4"/><rect x="562" y="66" width="196" height="80" rx="3"/><circle cx="600" cy="106" r="16"/><circle cx="650" cy="106" r="16"/><circle cx="700" cy="106" r="16"/><rect x="726" y="88" width="22" height="36" rx="2"/>
+      <rect x="548" y="330" width="120" height="44" rx="3"/><rect x="696" y="306" width="80" height="68" rx="3"/>
+      <rect x="826" y="80" width="40" height="440" rx="3"/><rect x="833" y="100" width="26" height="40" rx="2"/><rect x="833" y="160" width="26" height="40" rx="2"/><rect x="833" y="280" width="26" height="40" rx="2"/><rect x="833" y="340" width="26" height="40" rx="2"/><rect x="833" y="400" width="26" height="40" rx="2"/>
+      <rect x="976" y="80" width="60" height="38" rx="3"/><rect x="1074" y="80" width="60" height="38" rx="3"/><rect x="976" y="170" width="60" height="38" rx="3"/><rect x="1074" y="170" width="60" height="38" rx="3"/><rect x="976" y="290" width="60" height="38" rx="3"/><rect x="1074" y="290" width="60" height="38" rx="3"/><rect x="976" y="380" width="60" height="38" rx="3"/><rect x="1074" y="380" width="60" height="38" rx="3"/>
+      <rect x="548" y="540" width="200" height="40" rx="3"/><circle cx="590" cy="560" r="12"/><circle cx="650" cy="560" r="12"/><rect x="690" y="440" width="84" height="64" rx="3"/>
+      <rect x="256" y="540" width="108" height="40"/><line x1="283" y1="540" x2="283" y2="580"/><line x1="310" y1="540" x2="310" y2="580"/><line x1="337" y1="540" x2="337" y2="580"/>
+      <rect x="398" y="510" width="104" height="48" rx="3"/><circle cx="450" cy="580" r="10"/>
+    </g>
+    <g class="comodos">
+      <rect class="room" data-room="camara" x="40" y="40" width="200" height="150" pathLength="1"/>
+      <rect class="room" data-room="estoque" x="40" y="190" width="200" height="210" pathLength="1"/>
+      <rect class="room" data-room="recebimento" x="40" y="400" width="200" height="200" pathLength="1"/>
+      <rect class="room" data-room="preparo" x="240" y="40" width="280" height="360" pathLength="1"/>
+      <rect class="room" data-room="coccao" x="520" y="40" width="280" height="360" pathLength="1"/>
+      <rect class="room" data-room="distribuicao" x="800" y="40" width="140" height="560" pathLength="1"/>
+      <rect class="room" data-room="refeitorio" x="940" y="40" width="220" height="560" pathLength="1"/>
+      <rect class="room" data-room="vestiario" x="240" y="400" width="140" height="200" pathLength="1"/>
+      <rect class="room" data-room="escritorio" x="380" y="400" width="140" height="200" pathLength="1"/>
+      <rect class="room" data-room="higienizacao" x="520" y="400" width="280" height="200" pathLength="1"/>
+      <rect class="contorno" x="40" y="40" width="1120" height="560" pathLength="1"/>
+    </g>
+    <g class="vaos">
+      <line class="vao" x1="40" y1="470" x2="40" y2="530"/><line class="vao" x1="110" y1="400" x2="170" y2="400"/><line class="vao" x1="110" y1="190" x2="170" y2="190"/>
+      <line class="vao" x1="240" y1="260" x2="240" y2="320"/><line class="vao" x1="520" y1="250" x2="520" y2="320"/><line class="vao" x1="800" y1="190" x2="800" y2="270"/>
+      <line class="vao" x1="940" y1="180" x2="940" y2="280"/><line class="vao" x1="940" y1="530" x2="940" y2="590"/><line class="vao" x1="800" y1="530" x2="800" y2="590"/>
+      <line class="vao" x1="290" y1="400" x2="340" y2="400"/><line class="vao" x1="430" y1="400" x2="480" y2="400"/>
+    </g>
+    <g class="portas">
+      <path class="porta" d="M40 470 H96 M96 470 A56 56 0 0 1 40 526"/>
+      <path class="porta" d="M290 400 V352 M290 352 A48 48 0 0 1 338 400"/>
+      <path class="porta" d="M430 400 V352 M430 352 A48 48 0 0 1 478 400"/>
+    </g>
+    <g class="rotulos">
+      <text x="62" y="124">Câmara fria</text>
+      <text x="92" y="350">Estoque</text>
+      <text x="62" y="432">Recebimento</text>
+      <text x="268" y="140">Pré-preparo</text>
+      <text x="548" y="196">Cocção</text>
+      <text transform="translate(912 560) rotate(-90)">Distribuição</text>
+      <text x="976" y="520">Refeitório</text>
+      <text x="548" y="430">Higienização</text>
+      <text x="256" y="432">Vestiário</text>
+      <text x="398" y="432">Escritório</text>
+    </g>
+    <path class="retorno" d="M1050 470 V560 H640"/>
+    <path class="fluxo" d="M0 500 H140 V290 H660 V230 H1050" pathLength="1"/>
+    <g class="paradas">
+      <circle class="parada" data-room="recebimento" cx="140" cy="500" r="8" style="animation-delay:1.6s"/>
+      <circle class="parada" data-room="estoque" cx="140" cy="290" r="8" style="animation-delay:1.95s"/>
+      <circle class="parada" data-room="preparo" cx="380" cy="290" r="8" style="animation-delay:2.3s"/>
+      <circle class="parada" data-room="coccao" cx="660" cy="230" r="8" style="animation-delay:2.75s"/>
+      <circle class="parada" data-room="distribuicao" cx="846" cy="230" r="8" style="animation-delay:3.05s"/>
+      <circle class="parada" data-room="refeitorio" cx="1050" cy="230" r="8" style="animation-delay:3.4s"/>
+    </g>
+    <circle class="bandeja" r="6"><animateMotion dur="9s" begin="3.6s" repeatCount="indefinite" path="M0 500 H140 V290 H660 V230 H1050"/></circle>
+  </svg>
+
+  <div class="hero-conteudo">
+    <h1 class="entra" style="animation-delay:.3s">Cozinha em ordem do recebimento ao prato</h1>
+    <p class="linha entra" style="animation-delay:.6s">Gestão, auditorias e responsabilidade técnica para escolas, hotéis e restaurantes de Joinville e região.</p>
+    <div class="acoes entra" style="animation-delay:.85s">
+      <a class="btn btn-amarelo" href="https://wa.me/5547992922933?text=Ol%C3%A1%2C%20C%26G!%20Vi%20o%20site%20e%20quero%20conversar%20sobre%20a%20nossa%20cozinha." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1 0-.3-.1-.5-.2z"/></svg>
+        Falar com a C&amp;G no WhatsApp
+      </a>
+      <a class="btn btn-contorno" href="#servicos">Ver o que fazemos na cozinha</a>
+    </div>
+  </div>
+  <a class="rolar" href="#para-quem" aria-label="Rolar para a próxima seção">role a página<span></span></a>
+</section>
+
+<!-- PARA QUEM -->
+<section class="secao" id="para-quem">
+  <div class="wrap quem-grid">
+    <div class="fixo revela">
+      <h2>Para cozinhas que alimentam muita gente, todos os dias</h2>
+      <div class="dor">
+        <p>Quando a rotina aperta, o processo é o primeiro a ficar para trás. O POP fica na gaveta, o estoque perde a ordem e quem chega novo na equipe aprende no improviso.</p>
+        <p>É aí que aparecem o desperdício, o prato que sai diferente a cada turno e o susto quando a vigilância sanitária bate na porta.</p>
+        <p>A C&amp;G não entrega só papelada: entra na operação, junto da sua equipe, até o processo funcionar no dia a dia.</p>
+      </div>
+    </div>
+    <ul class="publicos" aria-label="Quem a C&amp;G atende">
+      <li>Escolas públicas conveniadas e particulares</li>
+      <li>Centros de Educação Infantil</li>
+      <li>Restaurantes e cafeterias</li>
+      <li>Hotéis</li>
+      <li>Operações de delivery</li>
+      <li>Padarias e confeitarias</li>
+      <li>Comunidades terapêuticas</li>
+      <li>Empresas que buscam adequação ao PAT</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FAIXA -->
+<section class="faixa" aria-label="Bastidores da cozinha">
+  <img src="https://images.unsplash.com/photo-1790156591384-dbb7c31b0062?w=2000&q=75&auto=format&fit=crop" alt="Cozinha profissional limpa, com bancadas e coifas de aço inox" loading="lazy" data-parallax>
+  <div class="wrap">
+    <blockquote class="revela">
+      <p>O que acontece nos bastidores de uma cozinha vai muito além do que chega ao prato.</p>
+      <cite>Carol e Giovanna, no Instagram da C&amp;G</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- SERVIÇOS NA PLANTA -->
+<section class="secao servicos" id="servicos">
+  <div class="wrap">
+    <div class="serv-topo revela">
+      <h2>Cada serviço tem um lugar na sua cozinha</h2>
+      <p class="intro-sec">Role a lista e acompanhe na planta onde a C&amp;G atua. A linha amarela é o caminho do alimento: entra pelo recebimento e só anda para a frente.</p>
+    </div>
+    <div class="serv-grid">
+      <div class="serv-planta">
+        <svg class="planta" viewBox="0 0 1200 640" role="img" aria-label="Planta de uma cozinha profissional com o fluxo dos alimentos do recebimento ao refeitório">
+          <g class="equip">
+            <rect x="62" y="62" width="156" height="18" rx="2"/><rect x="62" y="152" width="156" height="18" rx="2"/>
+            <rect x="62" y="212" width="22" height="166"/><rect x="196" y="212" width="22" height="166"/><rect x="112" y="236" width="56" height="40" rx="2"/>
+            <rect x="150" y="530" width="66" height="46" rx="3"/><circle cx="183" cy="553" r="13"/>
+            <rect x="268" y="66" width="224" height="44" rx="3"/><rect x="268" y="330" width="130" height="44" rx="3"/><rect x="412" y="330" width="80" height="44" rx="3"/><circle cx="452" cy="352" r="12"/><rect x="330" y="160" width="100" height="70" rx="3"/>
+            <rect class="tracejado" x="548" y="54" width="224" height="104" rx="4"/><rect x="562" y="66" width="196" height="80" rx="3"/><circle cx="600" cy="106" r="16"/><circle cx="650" cy="106" r="16"/><circle cx="700" cy="106" r="16"/><rect x="726" y="88" width="22" height="36" rx="2"/>
+            <rect x="548" y="330" width="120" height="44" rx="3"/><rect x="696" y="306" width="80" height="68" rx="3"/>
+            <rect x="826" y="80" width="40" height="440" rx="3"/><rect x="833" y="100" width="26" height="40" rx="2"/><rect x="833" y="160" width="26" height="40" rx="2"/><rect x="833" y="280" width="26" height="40" rx="2"/><rect x="833" y="340" width="26" height="40" rx="2"/><rect x="833" y="400" width="26" height="40" rx="2"/>
+            <rect x="976" y="80" width="60" height="38" rx="3"/><rect x="1074" y="80" width="60" height="38" rx="3"/><rect x="976" y="170" width="60" height="38" rx="3"/><rect x="1074" y="170" width="60" height="38" rx="3"/><rect x="976" y="290" width="60" height="38" rx="3"/><rect x="1074" y="290" width="60" height="38" rx="3"/><rect x="976" y="380" width="60" height="38" rx="3"/><rect x="1074" y="380" width="60" height="38" rx="3"/>
+            <rect x="548" y="540" width="200" height="40" rx="3"/><circle cx="590" cy="560" r="12"/><circle cx="650" cy="560" r="12"/><rect x="690" y="440" width="84" height="64" rx="3"/>
+            <rect x="256" y="540" width="108" height="40"/><line x1="283" y1="540" x2="283" y2="580"/><line x1="310" y1="540" x2="310" y2="580"/><line x1="337" y1="540" x2="337" y2="580"/>
+            <rect x="398" y="510" width="104" height="48" rx="3"/><circle cx="450" cy="580" r="10"/>
+          </g>
+          <g class="comodos">
+            <rect class="room" data-room="camara" x="40" y="40" width="200" height="150"/>
+            <rect class="room" data-room="estoque" x="40" y="190" width="200" height="210"/>
+            <rect class="room" data-room="recebimento" x="40" y="400" width="200" height="200"/>
+            <rect class="room" data-room="preparo" x="240" y="40" width="280" height="360"/>
+            <rect class="room" data-room="coccao" x="520" y="40" width="280" height="360"/>
+            <rect class="room" data-room="distribuicao" x="800" y="40" width="140" height="560"/>
+            <rect class="room" data-room="refeitorio" x="940" y="40" width="220" height="560"/>
+            <rect class="room" data-room="vestiario" x="240" y="400" width="140" height="200"/>
+            <rect class="room" data-room="escritorio" x="380" y="400" width="140" height="200"/>
+            <rect class="room" data-room="higienizacao" x="520" y="400" width="280" height="200"/>
+            <rect class="contorno" x="40" y="40" width="1120" height="560"/>
+          </g>
+          <g class="vaos">
+            <line class="vao" x1="40" y1="470" x2="40" y2="530"/><line class="vao" x1="110" y1="400" x2="170" y2="400"/><line class="vao" x1="110" y1="190" x2="170" y2="190"/>
+            <line class="vao" x1="240" y1="260" x2="240" y2="320"/><line class="vao" x1="520" y1="250" x2="520" y2="320"/><line class="vao" x1="800" y1="190" x2="800" y2="270"/>
+            <line class="vao" x1="940" y1="180" x2="940" y2="280"/><line class="vao" x1="940" y1="530" x2="940" y2="590"/><line class="vao" x1="800" y1="530" x2="800" y2="590"/>
+            <line class="vao" x1="290" y1="400" x2="340" y2="400"/><line class="vao" x1="430" y1="400" x2="480" y2="400"/>
+          </g>
+          <g class="portas">
+            <path class="porta" d="M40 470 H96 M96 470 A56 56 0 0 1 40 526"/>
+            <path class="porta" d="M290 400 V352 M290 352 A48 48 0 0 1 338 400"/>
+            <path class="porta" d="M430 400 V352 M430 352 A48 48 0 0 1 478 400"/>
+          </g>
+          <g class="rotulos">
+            <text x="62" y="124">Câmara fria</text>
+            <text x="92" y="350">Estoque</text>
+            <text x="62" y="432">Recebimento</text>
+            <text x="268" y="140">Pré-preparo</text>
+            <text x="548" y="196">Cocção</text>
+            <text transform="translate(912 560) rotate(-90)">Distribuição</text>
+            <text x="976" y="520">Refeitório</text>
+            <text x="548" y="430">Higienização</text>
+            <text x="256" y="432">Vestiário</text>
+            <text x="398" y="432">Escritório</text>
+          </g>
+          <path class="retorno" d="M1050 470 V560 H640"/>
+          <path class="fluxo" d="M0 500 H140 V290 H660 V230 H1050"/>
+          <g class="paradas">
+            <circle class="parada" data-room="recebimento" cx="140" cy="500" r="8"/>
+            <circle class="parada" data-room="estoque" cx="140" cy="290" r="8"/>
+            <circle class="parada" data-room="preparo" cx="380" cy="290" r="8"/>
+            <circle class="parada" data-room="coccao" cx="660" cy="230" r="8"/>
+            <circle class="parada" data-room="distribuicao" cx="846" cy="230" r="8"/>
+            <circle class="parada" data-room="refeitorio" cx="1050" cy="230" r="8"/>
+          </g>
+        </svg>
+        <div class="serv-legenda"><span><i></i>Caminho do alimento</span><span><i class="pont"></i>Retorno dos utensílios para a higienização</span></div>
+      </div>
+
+      <ol class="serv-lista">
+        <li class="serv-item" data-alvo="recebimento">
+          <span class="onde">Na planta: recebimento</span>
+          <h3>Controle de qualidade na porta de entrada</h3>
+          <p>Checklists de recebimento para conferir temperatura, validade, embalagem e fornecedor antes de qualquer alimento entrar na cozinha.</p>
+        </li>
+        <li class="serv-item" data-alvo="estoque camara">
+          <span class="onde">Na planta: estoque e câmara fria</span>
+          <h3>Organização de estoques</h3>
+          <p>Estoque seco e câmara fria organizados por validade, com rotina de conferência. Menos perda, menos compra repetida e menos desperdício no fim do mês.</p>
+        </li>
+        <li class="serv-item" data-alvo="preparo">
+          <span class="onde">Na planta: pré-preparo</span>
+          <h3>Boas Práticas de Manipulação e POPs</h3>
+          <p>Procedimentos Operacionais Padronizados escritos para a realidade da sua cozinha e colocados em prática com a equipe, da higiene das mãos ao corte dos alimentos.</p>
+        </li>
+        <li class="serv-item" data-alvo="coccao">
+          <span class="onde">Na planta: cocção</span>
+          <h3>Fichas técnicas</h3>
+          <p>Cada preparação com ingredientes, quantidades, rendimento e modo de fazer. O prato sai igual em qualquer turno e o custo de cada refeição fica previsível.</p>
+        </li>
+        <li class="serv-item" data-alvo="distribuicao refeitorio">
+          <span class="onde">Na planta: distribuição</span>
+          <h3>Segurança dos alimentos até o prato</h3>
+          <p>Controle de tempo e temperatura na distribuição, para o alimento chegar seguro ao refeitório, ao salão do restaurante ou à embalagem do delivery.</p>
+        </li>
+        <li class="serv-item" data-alvo="higienizacao">
+          <span class="onde">Na planta: higienização</span>
+          <h3>Padronização de processos</h3>
+          <p>Rotinas de limpeza com frequência, produto e responsável definidos, e o sujo separado do limpo. Checklists operacionais para a equipe saber o que fazer em cada turno.</p>
+        </li>
+        <li class="serv-item" data-alvo="vestiario">
+          <span class="onde">Na planta: vestiário da equipe</span>
+          <h3>Treinamento de equipes</h3>
+          <p>Treinamentos práticos, dentro da cozinha, para merendeiras, cozinheiros e auxiliares. Quem entra novo aprende o processo certo desde o primeiro dia.</p>
+        </li>
+        <li class="serv-item" data-alvo="escritorio">
+          <span class="onde">Na planta: escritório</span>
+          <h3>Responsabilidade Técnica, Manual de Boas Práticas e auditorias</h3>
+          <p>Nutricionista responsável pela operação, Manual de Boas Práticas com a cara da sua cozinha e auditorias de qualidade para ajustar o que for preciso antes da fiscalização.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section class="secao check" id="checklist">
+  <div class="wrap">
+    <div class="revela" style="max-width:760px">
+      <h2>Como está a sua cozinha hoje?</h2>
+      <p class="intro-sec">Marque o que já está em dia. No fim, mande o resultado para a C&amp;G pelo WhatsApp e a conversa já começa pelo que importa.</p>
+    </div>
+    <div class="check-grid">
+      <form class="folha revela" id="form-check" onsubmit="return false">
+        <fieldset>
+          <legend>Que tipo de cozinha é a sua?</legend>
+          <div class="chips">
+            <label><input type="radio" name="tipo" value="escola" checked><span>Escola ou CEI</span></label>
+            <label><input type="radio" name="tipo" value="restaurante ou cafeteria"><span>Restaurante ou cafeteria</span></label>
+            <label><input type="radio" name="tipo" value="hotel"><span>Hotel</span></label>
+            <label><input type="radio" name="tipo" value="delivery"><span>Delivery</span></label>
+            <label><input type="radio" name="tipo" value="outra"><span>Outra</span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>O que já está em dia?</legend>
+          <ul class="itens">
+            <li><label><input type="checkbox" value="Manual de Boas Práticas atualizado"><span class="caixa"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="txt">Manual de Boas Práticas atualizado e com a realidade da cozinha</span></label></li>
+            <li><label><input type="checkbox" value="POPs escritos e seguidos pela equipe"><span class="caixa"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="txt">POPs escritos e seguidos pela equipe no dia a dia</span></label></li>
+            <li><label><input type="checkbox" value="Registro de temperatura de geladeiras e câmaras"><span class="caixa"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="txt">Registro diário de temperatura das geladeiras e da câmara fria</span></label></li>
+            <li><label><input type="checkbox" value="Checklist de recebimento de mercadorias"><span class="caixa"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="txt">Conferência das mercadorias no recebimento</span></label></li>
+            <li><label><input type="checkbox" value="Estoque organizado por validade"><span class="caixa"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="txt">Estoque organizado por validade, sem produto esquecido no fundo</span></label></li>
+            <li><label><input type="checkbox" value="Fichas técnicas das preparações"><span class="caixa"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="txt">Fichas técnicas das preparações principais</span></label></li>
+            <li><label><input type="checkbox" value="Equipe treinada no último ano"><span class="caixa"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="txt">Equipe treinada em Boas Práticas no último ano</span></label></li>
+            <li><label><input type="checkbox" value="Responsável técnico definido"><span class="caixa"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="txt">Nutricionista responsável técnica definida</span></label></li>
+          </ul>
+        </fieldset>
+      </form>
+
+      <aside class="resultado revela" aria-live="polite">
+        <div class="placar"><span id="feitos">0</span> de 8<small>em dia</small></div>
+        <div class="barra"><i id="barra"></i></div>
+        <p class="leitura" id="leitura">Marque os itens ao lado para ver como está a sua cozinha.</p>
+        <p class="pendentes" id="pendentes"></p>
+        <a class="btn btn-amarelo" id="enviar-check" href="https://wa.me/5547992922933" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1 0-.3-.1-.5-.2z"/></svg>
+          Enviar pelo WhatsApp
+        </a>
+        <p class="aviso">Este checklist abre a conversa. A avaliação de verdade acontece na visita à sua cozinha.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="secao passos-sec" id="como">
+  <div class="wrap">
+    <div class="revela" style="max-width:760px">
+      <h2>Do primeiro contato à cozinha funcionando sozinha</h2>
+      <p class="intro-sec">O acompanhamento é presencial. A C&amp;G vai até a sua cozinha, olha a operação de perto e monta as soluções com quem trabalha nela.</p>
+    </div>
+    <ol class="passos" id="passos">
+      <li class="trilho" aria-hidden="true"></li>
+      <li><span class="num">1</span><h3>Conversa</h3><p>Você conta o tipo de cozinha, o tamanho da operação e o maior desafio de hoje.</p></li>
+      <li><span class="num">2</span><h3>Visita à cozinha</h3><p>A C&amp;G acompanha a rotina e aponta o que precisa de ajuste, do recebimento à distribuição.</p></li>
+      <li><span class="num">3</span><h3>Implantação</h3><p>Manual, POPs, fichas técnicas e treinamentos colocados em prática junto com a equipe.</p></li>
+      <li><span class="num">4</span><h3>Acompanhamento</h3><p>Visitas e auditorias periódicas para o processo continuar de pé quando a rotina aperta.</p></li>
+    </ol>
+    <figure class="passos-foto revela">
+      <img src="https://images.unsplash.com/photo-1622021142947-da7dedc7c39a?w=1800&q=75&auto=format&fit=crop" alt="Cozinheiro de dólmã branco preparando legumes em uma cozinha de aço inox" loading="lazy">
+    </figure>
+  </div>
+</section>
+
+<!-- ESCOLAS -->
+<section class="secao" id="escolas">
+  <div class="wrap escolas-grid">
+    <figure class="escolas-foto revela">
+      <img src="https://images.unsplash.com/photo-1668838268173-816ee121ad4a?w=1200&q=75&auto=format&fit=crop" alt="Bandejas de refeições porcionadas com arroz, carne e legumes" loading="lazy">
+      <figcaption>Escolas públicas conveniadas, escolas particulares e Centros de Educação Infantil.</figcaption>
+    </figure>
+    <div class="escolas-texto revela">
+      <h2>Na escola, a refeição também educa</h2>
+      <p class="intro-sec">Boa parte do trabalho da C&amp;G acontece nas cozinhas escolares. Cardápio, processos e equipe organizados para que a merendeira tenha tempo para o que importa: alimentar bem as crianças.</p>
+      <p>No Dia da Merendeira Escolar, a C&amp;G levou uma lembrança para homenagear as merendeiras das escolas que acompanha. É o tipo de cuidado que os clientes contam nas avaliações.</p>
+      <div class="citacao">
+        <p>Qualquer ajuda desnecessária é um obstáculo na aprendizagem.</p>
+        <cite>Maria Montessori, frase compartilhada pela C&amp;G no Instagram</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUEM SOMOS -->
+<section class="secao socias" id="socias">
+  <div class="wrap">
+    <div class="mono revela" aria-hidden="true">C<span class="amp">&amp;<svg viewBox="0 0 24 24"><path fill="#F2CF5B" d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4.5 6.6 4.5c2.2 0 3.7 1.3 5.4 3.2 1.7-1.9 3.2-3.2 5.4-3.2 3.6 0 5.8 3.7 4.2 7.3C19.5 16.4 12 21 12 21z"/></svg></span>G</div>
+    <h2 class="revela" style="text-align:center;margin-top:28px">Duas nutricionistas, um nome só</h2>
+    <div class="nomes">
+      <div class="nome revela">
+        <figure><img src="midia/carolina.jpg" alt="Carolina Mendez Tasca, nutricionista da C&amp;G, sentada à mesa com uma xícara de café" loading="lazy" width="540" height="675"><span class="letra" aria-hidden="true">C</span></figure>
+        <h3>Carolina Mendez Tasca</h3>
+        <a href="https://www.instagram.com/nutri_caroltasca/" target="_blank" rel="noopener">@nutri_caroltasca no Instagram</a>
+      </div>
+      <div class="nome revela">
+        <figure><img src="midia/giovanna.jpg" alt="Giovanna Meneghetti, nutricionista da C&amp;G, sentada à mesa com uma xícara de café" loading="lazy" width="540" height="675"><span class="letra" aria-hidden="true">G</span></figure>
+        <h3>Giovanna Meneghetti</h3>
+        <a href="https://www.instagram.com/nutri.gimeneghetti/" target="_blank" rel="noopener">@nutri.gimeneghetti no Instagram</a>
+      </div>
+    </div>
+    <div class="socias-texto revela">
+      <div class="txt">
+      <p>O C é da Carol e o G é da Giovanna. São elas que atendem, de perto, a cozinha de cada cliente: atendimento personalizado e soluções práticas, pensadas para a necessidade de cada operação.</p>
+      <p>Também estão sempre nos eventos do setor, como o Congresso Brasileiro de Gastronomia de 2026, e trazem para a rotina dos clientes o que aprendem por lá.</p>
+      </div>
+      <figure>
+        <img src="midia/congresso.jpg" alt="Giovanna e Carolina diante do painel do Congresso Brasileiro de Gastronomia 2026" loading="lazy" width="540" height="720">
+        <figcaption>Giovanna e Carol no Congresso Brasileiro de Gastronomia, em 2026.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- AVALIAÇÕES -->
+<section class="secao" id="avaliacoes">
+  <div class="wrap">
+    <div class="aval-topo revela">
+      <h2 style="max-width:14ch">O que dizem os clientes</h2>
+      <div class="nota">
+        <b>5,0</b>
+        <div>
+          <div class="estrelas" aria-label="5 de 5 estrelas">
+            <svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.5l1.3-6.6L2.5 9.3l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.5l1.3-6.6L2.5 9.3l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.5l1.3-6.6L2.5 9.3l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.5l1.3-6.6L2.5 9.3l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.5l1.3-6.6L2.5 9.3l6.6-.8z"/></svg>
+          </div>
+          <small>8 avaliações no Google</small>
+        </div>
+      </div>
+    </div>
+    <div class="aval-grid">
+      <blockquote class="aval grande revela">
+        <p>A C&amp;G Assessoria Nutricional realiza um trabalho excelente nas escolas, com muita dedicação, responsabilidade e profissionalismo. O atendimento é feito com carinho e atenção em cada detalhe, sempre prezando pela qualidade do serviço, organização e cuidado com a alimentação e bem-estar de todos.</p>
+        <footer>Digo André, no Google</footer>
+      </blockquote>
+      <blockquote class="aval revela">
+        <p>Profissionais responsáveis e atenciosas. Atendimento personalizado. Empresa de muita confiança!!! Super recomendo.</p>
+        <footer>Jéssica Leite, no Google</footer>
+      </blockquote>
+      <blockquote class="aval revela">
+        <p>Empresa muito qualificada, atenciosa, valor de prestação de serviço justa.</p>
+        <footer>Rodrigo, no Google</footer>
+      </blockquote>
+    </div>
+    <p style="margin-top:32px" class="revela"><a class="link-google" href="https://www.google.com/maps/search/?api=1&amp;query=C%26G%20Nutri%C3%A7%C3%A3o%20Joinville&amp;query_place_id=ChIJW0H6hnNeaIwRN55sEQUHPiU" target="_blank" rel="noopener">Ver todas as avaliações no Google</a></p>
+  </div>
+</section>
+
+<!-- PERGUNTAS -->
+<section class="secao faq" id="perguntas">
+  <div class="wrap faq-grid">
+    <div class="revela">
+      <h2>Perguntas de quem está pensando em contratar</h2>
+      <p class="intro-sec">Ficou alguma dúvida? Pergunte direto para a Carol e a Giovanna pelo WhatsApp.</p>
+    </div>
+    <div class="revela">
+      <details>
+        <summary>Que tipos de cozinha vocês atendem?<span class="mais" aria-hidden="true"></span></summary>
+        <div class="resp"><p>Escolas públicas conveniadas e particulares, Centros de Educação Infantil, restaurantes, cafeterias, hotéis, operações de delivery, padarias e confeitarias, comunidades terapêuticas e empresas de alimentação coletiva.</p></div>
+      </details>
+      <details>
+        <summary>O acompanhamento é presencial?<span class="mais" aria-hidden="true"></span></summary>
+        <div class="resp"><p>Sim. Esse é o diferencial da C&amp;G: o trabalho acontece dentro da cozinha, junto da equipe, para garantir que a organização, a conformidade com a legislação sanitária e a padronização funcionem na prática.</p></div>
+      </details>
+      <details>
+        <summary>O que faz a Responsabilidade Técnica?<span class="mais" aria-hidden="true"></span></summary>
+        <div class="resp"><p>A nutricionista responsável técnica responde pela qualidade e pela segurança dos alimentos da operação: supervisiona os processos, mantém o Manual de Boas Práticas e os POPs atualizados e orienta a equipe no dia a dia.</p></div>
+      </details>
+      <details>
+        <summary>Vocês ajudam na adequação ao PAT?<span class="mais" aria-hidden="true"></span></summary>
+        <div class="resp"><p>Sim. A C&amp;G atende empresas que buscam adequação ao Programa de Alimentação do Trabalhador.</p></div>
+      </details>
+      <details>
+        <summary>Atendem fora de Joinville?<span class="mais" aria-hidden="true"></span></summary>
+        <div class="resp"><p>A C&amp;G atende Joinville e região. Conte pelo WhatsApp onde fica a sua cozinha.</p></div>
+      </details>
+      <details>
+        <summary>Quanto custa?<span class="mais" aria-hidden="true"></span></summary>
+        <div class="resp"><p>Depende do tamanho da operação e dos serviços que a sua cozinha precisa. Depois da primeira conversa, a C&amp;G monta uma proposta para a sua realidade.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CHAMADA FINAL -->
+<section class="secao final" id="contato">
+  <div class="wrap">
+    <span class="selo-ano revela" aria-hidden="true">2027</span>
+    <h2 class="revela">Sua cozinha está preparada para 2027?</h2>
+    <p class="revela">A agenda da C&amp;G para 2027 já está aberta. Conte qual é o maior desafio da sua cozinha hoje.</p>
+    <div class="acoes revela">
+      <a class="btn btn-amarelo" href="https://wa.me/5547992922933?text=Ol%C3%A1%2C%20C%26G!%20Quero%20saber%20sobre%20a%20agenda%20de%202027%20para%20a%20nossa%20cozinha." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1 0-.3-.1-.5-.2z"/></svg>
+        Reservar horário no WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rodape">
+  <div class="wrap rodape-topo">
+    <div class="rodape-linha" aria-hidden="true"><i style="left:8px;transition-delay:.1s"></i><i style="left:20%;transition-delay:.4s"></i><i style="left:40%;transition-delay:.7s"></i><i style="left:60%;transition-delay:1s"></i><i style="left:80%;transition-delay:1.3s"></i><i style="left:calc(100% - 8px);transition-delay:1.6s"></i></div>
+    <div class="rodape-grid">
+      <div class="rodape-marca">
+        <a class="logo" href="#inicio" aria-label="C&amp;G Nutrição, voltar ao início">
+          <span class="marca">C&amp;G<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F2CF5B" d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4.5 6.6 4.5c2.2 0 3.7 1.3 5.4 3.2 1.7-1.9 3.2-3.2 5.4-3.2 3.6 0 5.8 3.7 4.2 7.3C19.5 16.4 12 21 12 21z"/></svg></span>
+          <span class="sub">NUTRIÇÃO</span>
+        </a>
+        <p>Gestão de serviços de alimentação para escolas, hotéis, restaurantes e empresas de Joinville e região.</p>
+        <a class="btn btn-amarelo" href="https://wa.me/5547992922933?text=Ol%C3%A1%2C%20C%26G!%20Vi%20o%20site%20e%20quero%20conversar%20sobre%20a%20nossa%20cozinha." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1 0-.3-.1-.5-.2z"/></svg> Chamar no WhatsApp</a>
+      </div>
+      <div>
+        <h3>Navegue</h3>
+        <ul>
+          <li><a href="#servicos">Serviços na planta</a></li>
+          <li><a href="#checklist">Checklist da cozinha</a></li>
+          <li><a href="#como">Como funciona</a></li>
+          <li><a href="#escolas">Escolas</a></li>
+          <li><a href="#perguntas">Perguntas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contato</h3>
+        <ul>
+          <li><a href="https://wa.me/5547992922933" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>(47) 99292-2933</a></li>
+          <li><a href="https://www.instagram.com/cegconsultoria_/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg>@cegconsultoria_</a></li>
+          <li><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Joinville e região</span></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query=C%26G%20Nutri%C3%A7%C3%A3o%20Joinville&amp;query_place_id=ChIJW0H6hnNeaIwRN55sEQUHPiU" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8z"/></svg>5,0 no Google</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>As nutricionistas</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/nutri_caroltasca/" target="_blank" rel="noopener">Carolina Mendez Tasca</a><small>@nutri_caroltasca</small></li>
+          <li><a href="https://www.instagram.com/nutri.gimeneghetti/" target="_blank" rel="noopener">Giovanna Meneghetti</a><small>@nutri.gimeneghetti</small></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rodape-base">
+      <span>C&amp;G Nutrição, 2026</span>
+      <a class="subir" href="#inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Voltar ao topo</a>
+      <a class="sano" href="https://sanolab.com.br" target="_blank" rel="noopener" aria-label="Desenvolvido por Sano Lab, sanolab.com.br">
+      <span>Desenvolvido por</span>
+      <svg viewBox="0 0 100 100" aria-hidden="true"><defs><mask id="sanoMask"><rect width="100" height="100" fill="#fff"/><circle cx="50" cy="48" r="20" fill="#000"/><circle cx="50" cy="104" r="22" fill="#000"/></mask></defs><circle cx="50" cy="50" r="42" fill="currentColor" mask="url(#sanoMask)"/></svg>
+      <b>Sano Lab</b>
+    </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Topo sólido depois da primeira tela
+  var topo = document.getElementById('topo');
+  function topoEstado(){ topo.classList.toggle('solido', window.scrollY > 40); }
+  topoEstado(); window.addEventListener('scroll', topoEstado, {passive:true});
+
+  // Menu do celular
+  var menuBtn = document.getElementById('menu-btn');
+  function menu(abrir){
+    document.body.classList.toggle('menu-aberto', abrir);
+    menuBtn.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', abrir ? 'Fechar menu' : 'Abrir menu');
+  }
+  menuBtn.addEventListener('click', function(){ menu(!document.body.classList.contains('menu-aberto')); });
+  document.querySelectorAll('.gaveta a').forEach(function(a){ a.addEventListener('click', function(){ menu(false); }); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') menu(false); });
+  window.addEventListener('resize', function(){ if (window.innerWidth >= 900) menu(false); });
+
+  // Revelação ao rolar
+  var alvos = document.querySelectorAll('.revela, .publicos, .passos, .rodape-linha');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('visto'); io.unobserve(e.target); }
+      });
+    }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+    alvos.forEach(function(el){ io.observe(el); });
+  } else { alvos.forEach(function(el){ el.classList.add('visto'); }); }
+
+  // Atraso escalonado da lista de públicos
+  document.querySelectorAll('.publicos li').forEach(function(li, i){ li.style.transitionDelay = (i * 70) + 'ms'; });
+
+  // Serviços acendem os cômodos da planta
+  var planta = document.querySelector('.serv-planta .planta');
+  var itens = document.querySelectorAll('.serv-item');
+  function ativar(item){
+    itens.forEach(function(i){ i.classList.toggle('ativo', i === item); });
+    var salas = item.getAttribute('data-alvo').split(' ');
+    planta.querySelectorAll('[data-room]').forEach(function(el){
+      el.classList.toggle('ativo', salas.indexOf(el.getAttribute('data-room')) > -1);
+    });
+  }
+  if (itens.length){
+    ativar(itens[0]);
+    if ('IntersectionObserver' in window){
+      var io2 = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting) ativar(e.target); });
+      }, {rootMargin:'-48% 0px -48% 0px'});
+      itens.forEach(function(i){ io2.observe(i); });
+    }
+  }
+
+  // Checklist
+  var form = document.getElementById('form-check');
+  var caixas = form.querySelectorAll('.itens input');
+  var feitos = document.getElementById('feitos');
+  var barra = document.getElementById('barra');
+  var leitura = document.getElementById('leitura');
+  var pend = document.getElementById('pendentes');
+  var enviar = document.getElementById('enviar-check');
+  var tocou = false;
+  function atualizar(){
+    var ok = [], falta = [];
+    caixas.forEach(function(c){ (c.checked ? ok : falta).push(c.value); });
+    var n = ok.length, total = caixas.length;
+    feitos.textContent = n;
+    barra.style.width = (n / total * 100) + '%';
+    var txt;
+    if (!tocou) txt = 'Marque os itens ao lado para ver como está a sua cozinha.';
+    else if (n <= 3) txt = 'Tem bastante coisa para organizar. Dá para começar pelo que pesa mais na rotina e na fiscalização.';
+    else if (n <= 6) txt = 'Boa base. Os pontos que faltam são os que mais aparecem numa auditoria.';
+    else if (n === 7) txt = 'Quase lá. Uma auditoria mostra os detalhes que ainda escapam.';
+    else txt = 'Tudo em dia. Uma auditoria periódica confirma e mantém assim.';
+    leitura.textContent = txt;
+    pend.innerHTML = (tocou && falta.length) ? '<strong>Ainda falta:</strong> ' + falta.join(', ').toLowerCase() + '.' : '';
+    var tipo = form.querySelector('input[name="tipo"]:checked').value;
+    var msg = 'Olá, C&G! Fiz o checklist no site. Minha cozinha é ' + (tipo === 'outra' ? 'de outro tipo' : (tipo === 'escola' ? 'de escola' : 'de ' + tipo)) + ' e está com ' + n + ' de ' + total + ' itens em dia.';
+    if (falta.length) msg += ' Ainda falta: ' + falta.join('; ').toLowerCase() + '.';
+    msg += ' Podemos conversar?';
+    enviar.href = 'https://wa.me/5547992922933?text=' + encodeURIComponent(msg);
+  }
+  form.addEventListener('change', function(e){ if (e.target.type === 'checkbox') tocou = true; atualizar(); });
+  atualizar();
+
+  // Parallax leve na faixa de foto
+  var foto = document.querySelector('[data-parallax]');
+  if (foto && !reduz){
+    var faixa = foto.parentElement, pedido = false;
+    function mover(){
+      var r = faixa.getBoundingClientRect(), h = window.innerHeight;
+      if (r.bottom > 0 && r.top < h){
+        var p = (r.top + r.height / 2 - h / 2) / h;
+        foto.style.transform = 'translateY(' + (p * -40).toFixed(1) + 'px)';
+      }
+      pedido = false;
+    }
+    window.addEventListener('scroll', function(){ if (!pedido){ pedido = true; requestAnimationFrame(mover); } }, {passive:true});
+    mover();
+  }
+})();
+</script>
+</body>
+</html>
